@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
-    import="java.util.*,jialong.Category_Jia" %>
+    import="java.util.*,jialong.*" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -10,10 +11,10 @@
 
 </head>
 <body>
-<!--  Initialization of “database” (students and nextPID)-->
-<!--  Retrieval Code (after initialization)-->
-<% 
-	//LinkedHashMap<Integer,Category_Jia> item=new LinkedHashMap<Integer,Category_Jia> ();
+<%--  Initialization of “database” (students and nextPID)--%>
+<%--  Retrieval Code (after initialization)--%>
+ 
+<%
 	LinkedHashMap<Integer,Category_Jia> item = (LinkedHashMap<Integer,Category_Jia>) request.getAttribute("Category-item");
 	if(item==null)
 	{
@@ -29,7 +30,7 @@
 %>
 
 <% String action = request.getParameter("action"); %> 
-<!--  Insert Code-->
+<%--  Insert Code--%>
 <%
 	if(action!=null && action.equals("insert"))
 	{
@@ -41,7 +42,7 @@
 		application.setAttribute("nextID", nextID);
 	}
 %>
-<!--Update Code-->
+<%--Update Code--%>
 <%
 	if(action!=null && action.equals("update"))
 	{
@@ -51,19 +52,18 @@
 		updated.setDes(request.getParameter("description"));
 	}
 %>
-<!--Delete Code-->
+<%--Delete Code--%>
 <%
 	if(action!=null && action.equals("delete"))
 	{
 		item.remove(Integer.parseInt(request.getParameter("id")));
 	}
-%>
-
+%> 
 	<table>
 		<tr>
 			<td>
 
-	            <!-- Add an HTML table header row to format the results -->
+	            <%-- Add an HTML table header row to format the results --%>
             	<table border="1">
             	<tr>
             	    <th>ID</th>
@@ -75,14 +75,14 @@
     	            <form action="Category_Jia.jsp" method="POST">
         	            <input type="hidden" name="action" value="insert"/>
             	        <th>&nbsp;</th>
-                	    <th><input value="" name="id" size="10"/></th>
+                	    <!--  <th><input value="" name="id" size="10"/></th>-->
                     	<th><input value="" name="name" size="15"/></th>
                    	 	<th><input value="" name="description" size="15"/></th>
                     	<th><input type="submit" value="Insert"/></th>
                 	</form>
             	</tr>
 
-            	<!-- -------- Iteration Code -------- -->
+            	<%-- -------- Iteration Code -------- --%>
             	<%
                 	// loop through the student data
                 	Iterator it = item.entrySet().iterator();
@@ -112,7 +112,7 @@
                 </td>
 
                 <%-- Button --%>
-                <td><input type="submit" value="Update"></td>
+                <td><input type="submit" value="Update"/></td>
                 </form>
                 <form action="Category_Jia.jsp" method="POST">
                     <input type="hidden" name="action" value="delete"/>
@@ -120,14 +120,13 @@
                     <%-- Button --%>
                 <td><input type="submit" value="Delete"/></td>
                 </form>
-            </tr>
-            <%
-                }
-            %>
-        </table>
+            	</tr>
+            	<%
+            	    }
+            	%>
+        		</table>
         </td>
     </tr>
 </table>
-</body>
 </body>
 </html>
