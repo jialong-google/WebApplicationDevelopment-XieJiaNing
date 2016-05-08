@@ -27,7 +27,7 @@
 		<br>
 		
 		<label>Your Age</label>
-		<input type="text" name="Age" id="age" placeholder="Your age">
+		<input type="text" name="Age" id="age" placeholder="Your age" required>
 		<br>
 		
 		<label>Your State</label>
