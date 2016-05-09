@@ -16,7 +16,7 @@ public class loginValidate {
 		
 		try {
 			Class.forName("org.postgresql.Driver");
-			conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/xiejianing?" + "user=postgres&password=");
+			conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/xiejianing", "jwxie", "12345");
 			conn.setAutoCommit(false);
 			
 			String sql = "SELECT * FROM users WHERE user_id  = ? and password = ?";

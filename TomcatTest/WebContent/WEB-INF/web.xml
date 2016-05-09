@@ -8,6 +8,15 @@
     <servlet-name>HelloService</servlet-name>
     <url-pattern>/sayhello</url-pattern>
   </servlet-mapping>
+  <servlet>
+		<servlet-name>jialong.Category_Jia</servlet-name>
+		<jsp-file>/Category_Jia.jsp</jsp-file>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>jialong.Category_Jia</servlet-name>
+		<url-pattern>/Category_Jia</url-pattern>
+	</servlet-mapping>
   <display-name>TomcatTest</display-name>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
