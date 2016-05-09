@@ -68,19 +68,26 @@
 					Connection conn = null;
 	            	PreparedStatement pstmt = null;
 	            	ResultSet rs = null;
-	            
+	            	Integer nextID=(Integer) session.getAttribute("nextID");
+	            	System.out.println("initial value of nextID:"+nextID);
+	            	if(nextID==null)
+	            	{
+	            		nextID= new Integer(1);
+	            		session.setAttribute("nextID",nextID);
+	            	}
 	            	try {
 	            	    // Registering Postgresql JDBC driver with the DriverManager
 	            	    Class.forName("org.postgresql.Driver");
 	
 		                // Open a connection to the database using DriverManager
 	    	            conn = DriverManager.getConnection(
-	        	            "jdbc:postgresql://localhost/cse135?" +
-	            	        "user=postgres&password=postgres");
+	        	            "jdbc:postgresql://localhost:5432/postgres?" +
+	            	        "user=postgres&password=003426");
 				%>
 				<%--insertion codes --%>
 				<%
 					String action=request.getParameter("action");
+					System.out.println("action is "+action);
 					if(action!=null && action.equals("insert"))
 					{
 						// Begin transaction
@@ -90,7 +97,7 @@
 	                    // INSERT student values INTO the students table.
 	                    pstmt = conn
 	                    .prepareStatement("INSERT INTO Category (id, name, des) VALUES (?,?, ?)");
-	                    pstmt.setInt(1, Integer.parseInt(request.getParameter("id")));//????
+	                    pstmt.setInt(1, nextID);//????
 	                    pstmt.setString(2, request.getParameter("name"));
 	                    pstmt.setString(3, request.getParameter("des"));
 	                    int rowCount = pstmt.executeUpdate();
@@ -109,9 +116,12 @@
                     conn.setAutoCommit(false);
                     // Create the prepared statement and use it to
                     // UPDATE student values in the Students table.
-                    pstmt = conn.prepareStatement("UPDATE Category SET name = ?, des = ?, "
+                    pstmt = conn.prepareStatement("UPDATE Category SET name = ?, des = ? "
                             + "WHERE id = ?");
-
+					System.out.println("three for update:");
+					System.out.println(request.getParameter("name"));
+					System.out.println(request.getParameter("des"));
+					System.out.println(Integer.parseInt(request.getParameter("id")));
                     pstmt.setString(1, request.getParameter("name"));
                     pstmt.setString(2, request.getParameter("des"));
                     pstmt.setInt(3, Integer.parseInt(request.getParameter("id")));
@@ -213,7 +223,11 @@
                 </form>
             	</tr>
             	<%
+            			nextID=rs.getInt("id")+1;
+            			session.setAttribute("nextID",nextID);
+            			System.out.println("nextID:"+nextID);
             	    }
+					//nextID=rs.getInt("id")+1;
             	
             	//-- -------- Close Connection Code -------- --
                 // Close the ResultSet
