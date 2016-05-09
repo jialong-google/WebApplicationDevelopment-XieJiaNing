@@ -47,8 +47,11 @@ public class SignUpControlServlet extends HttpServlet {
 			name[0] = request.getParameter("firstname");
 			name[1] = request.getParameter("lastname");
 			
-			boolean isUserExist = signUpValidate.isUserExist(name);
+			String strAge = request.getParameter("Age");
+			//boolean isAgeValid = (strAge != null && !strAge.isEmpty());
+			//if () System.out.println("This string is null, length is " + strAge.length());
 			
+			boolean isUserExist = signUpValidate.isUserExist(name);
 			if (isUserExist) {
 				userSignFailPage(request, response);
 			}
