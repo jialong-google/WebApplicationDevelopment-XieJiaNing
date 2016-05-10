@@ -11,54 +11,14 @@
 
 </head>
 <body>
-<%--  Initialization of “database” (students and nextPID)--%>
-<%--  Retrieval Code (after initialization)--%>
- 
-<%--
-	LinkedHashMap<Integer,Category_Jia> item = (LinkedHashMap<Integer,Category_Jia>) request.getAttribute("Category-item");
-	if(item==null)
+<%
+	String role=(String) session.getAttribute("role");
+	if(role!="owner")
 	{
-		item=new LinkedHashMap<Integer,Category_Jia>();
-		application.setAttribute("Category-item", item);
-	}
-	Integer nextID=(Integer) request.getAttribute("nextID");
-	if(nextID==null)
-	{
-		nextID= new Integer(0);
-		application.setAttribute("nextID",nextID);
-	}
---%>
-
-<%-- String action = request.getParameter("action"); --%> 
-<%--  Insert Code--%>
-<%--
-	if(action!=null && action.equals("insert"))
-	{
-		Category_Jia newItem=new Category_Jia();
-		newItem.setName(request.getParameter("name"));
-		newItem.setDes(request.getParameter("description"));
-		item.put(nextID, newItem);
-		nextID++;
-		application.setAttribute("nextID", nextID);
-	}
---%>
-<%--Update Code--%>
-<%--
-	if(action!=null && action.equals("update"))
-	{
-		Category_Jia updated=item.get(Integer.parseInt(request.getParameter("id")));
-		//judge if it had existed.
-		updated.setName(request.getParameter("name"));
-		updated.setDes(request.getParameter("description"));
-	}
---%>
-<%--Delete Code--%>
-<%--
-	if(action!=null && action.equals("delete"))
-	{
-		item.remove(Integer.parseInt(request.getParameter("id")));
-	}
---%> 
+		%><h1>This page is open only to owner!</h1><%
+	//}
+	//else{
+%>
 	<table>
 		<tr>
 			<td>
@@ -98,7 +58,8 @@
 	                    pstmt = conn
 	                    .prepareStatement("INSERT INTO Category (id, name, des) VALUES (?,?, ?)");
 	                    pstmt.setInt(1, nextID);//????
-	                    pstmt.setString(2, request.getParameter("name"));
+	                    if(!request.getParameter("name").isEmpty())
+	                    	pstmt.setString(2, request.getParameter("name"));
 	                    pstmt.setString(3, request.getParameter("des"));
 	                    int rowCount = pstmt.executeUpdate();
 
@@ -116,13 +77,26 @@
                     conn.setAutoCommit(false);
                     // Create the prepared statement and use it to
                     // UPDATE student values in the Students table.
+                    pstmt=conn.prepareStatement("SELECT * FROM Category WHERE id = ?");
+                	pstmt.setInt(1, Integer.parseInt(request.getParameter("id")));
+                	rs=pstmt.executeQuery();
+                	if(rs.next())///???????
+                	{	
+                		System.out.println("rs:"+rs.getInt("id"));
+                	}
+                	else{
+                		throw new SQLException();
+                	}
+                	conn.commit();
+                	
                     pstmt = conn.prepareStatement("UPDATE Category SET name = ?, des = ? "
                             + "WHERE id = ?");
 					System.out.println("three for update:");
 					System.out.println(request.getParameter("name"));
 					System.out.println(request.getParameter("des"));
 					System.out.println(Integer.parseInt(request.getParameter("id")));
-                    pstmt.setString(1, request.getParameter("name"));
+					if(!request.getParameter("name").isEmpty())
+						pstmt.setString(1, request.getParameter("name"));
                     pstmt.setString(2, request.getParameter("des"));
                     pstmt.setInt(3, Integer.parseInt(request.getParameter("id")));
                     int rowCount = pstmt.executeUpdate();
@@ -138,9 +112,21 @@
                 	if (action != null && action.equals("delete")) {
 
                 	    // Begin transaction
-                	    conn.setAutoCommit(false);
+                	    
                 	    // Create the prepared statement and use it to
                 	    // DELETE students FROM the Students table.
+                    conn.setAutoCommit(false);
+                	// Use the created statement to SELECT
+                	// the student attributes FROM the Student table.
+                	pstmt=conn.prepareStatement("SELECT * FROM Category WHERE id = ?");
+                	pstmt.setInt(1, Integer.parseInt(request.getParameter("id")));
+                	rs=pstmt.executeQuery();
+                	if(rs.next())///???????
+	                	System.out.println("rs:"+rs.getInt("id"));
+                	else
+                		throw new SQLException();
+                	conn.commit();
+           			
                 	    pstmt = conn
                 	        .prepareStatement("DELETE FROM Category WHERE id = ?");
 
@@ -151,15 +137,18 @@
                     	conn.setAutoCommit(true);
                 	}
             	%>
+            	
 				<%-- -------- SELECT Statement Code -------- --%>
             <%
                 // Create the statement
+                nextID=1;
                 Statement statement = conn.createStatement();
 
                 // Use the created statement to SELECT
                 // the student attributes FROM the Student table.
-                rs = statement.executeQuery("SELECT * FROM Category");
+                rs = statement.executeQuery("SELECT * FROM Category ORDER BY id");
             %>
+            
 	            <%-- Add an HTML table header row to format the results --%>
             	<table border="1">
             	<tr>
@@ -180,13 +169,7 @@
             	</tr>
 
             	<%-- -------- Iteration Code -------- --%>
-            	<%--
-                	// loop through the student data
-                	Iterator it = item.entrySet().iterator();
-                	while(it.hasNext()){
-                	    // current element pair
-                	    Map.Entry pair = (Map.Entry)it.next();
-            	--%>
+            	
 				<%
 				
 				while(rs.next())
@@ -223,7 +206,8 @@
                 </form>
             	</tr>
             	<%
-            			nextID=rs.getInt("id")+1;
+            			if(rs.getInt("id")==nextID)
+	            			nextID=rs.getInt("id")+1;
             			session.setAttribute("nextID",nextID);
             			System.out.println("nextID:"+nextID);
             	    }
@@ -242,7 +226,15 @@
 
                 // Wrap the SQL exception in a runtime exception to propagate
                 // it upwards
-                throw new RuntimeException(e);
+                System.out.println("error happens in sql.");
+                %>
+                <h1>Data Modification Error<h1>
+                <form action="Category_Jia.jsp" method="POST">
+        	    <input type="hidden" name="action" value=""/>
+        	    <input type="submit" value="Get back!"/>
+        	    </form>  
+                <%
+                //throw new RuntimeException(e);
             }
             finally {
                 // Release resources in a finally block in reverse-order of
@@ -272,6 +264,10 @@
         </td>
     </tr>
 </table>
+
+<%
+}
+%>
 </body>
 
 
