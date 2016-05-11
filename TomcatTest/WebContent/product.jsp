@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="java.util.*" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -9,74 +12,32 @@
 </head>
 
 <body>
-<%-- 
-<%
-	String loginName = (String) session.getAttribute("login");
-	if (loginName == null) { %>
-	
-	<jsp:includ page="xxx"/> 
-	
-	<%
-	}
-	else {
-		out.print("Hello," + loginName + "!");
-	}%>
+
+<input type="button" value="Insert Product" action="add-product.jsp">
 
 <%
-	String loginName = (String) session.getAttribute("login");
+	String[] category_list = {"A","B","C","D","E","F"};
 %>
---%>
 
-<c:choose>
-	<c:when test="${loginName == null}">
-		<jsp:includ page="xxx"/>
-	</c:when>
-	<c:otherwise>
-		out.print("Hello," + loginName + "!");
-	</c:otherwise>
-</c:choose>
-
-
-<input type="button" value="Insert" action="ProductControllerServlet">
+<c:forEach var="oneCategory" items="${category_list}">
+	<c:url var="categoryLink" value="ProductControllerServlet">
+		<c:param name="command"  value="category"/>
+		<c:param name="category" value="${oneCategory}"/>	
+	</c:url>
+	
+	<a href="${categoryLink}">"${oneCategory}"</a>
+</c:forEach>
 
 
-<c:url var="category_A" value="ProductControllerServlet">
-	<c:param name="category" value="A"/>
-</c:url>
+<table>
+	<c:forEach var="product" items="${product_list}">
+		<tr>
+			${product.name}$
+		</tr>
+	</c:forEach>
+</table>
 
-<c:url var="category_B" value="ProductControllerServlet">
-	<c:param name="category" value="B"/>
-</c:url>
-
-<c:url var="category_C" value="ProductControllerServlet">
-	<c:param name="category" value="C"/>
-</c:url>
-
-<c:url var="category_D" value="ProductControllerServlet">
-	<c:param name="category" value="D"/>
-</c:url>
-
-<c:url var="category_E" value="ProductControllerServlet">
-	<c:param name="category" value="E"/>
-</c:url>
-
-
-
-<a href="${category_A}">Category A</a>
-<br>
-
-<a href="${category_B}">Category B</a>
-<br>
-
-<a href="${category_C}">Category C</a>
-<br>
-
-<a href="${category_D}">Category D</a>
-<br>
-
-<a href="${category_E}">Category E</a>
-
-
+	
 
 
 

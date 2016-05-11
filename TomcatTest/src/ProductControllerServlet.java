@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/ProductControllerServlet")
 public class ProductControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    
+	private ProductDbUtil productDbUtil;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -21,12 +22,26 @@ public class ProductControllerServlet extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
+    
+    @Override
+    public void init() throws ServletException {
+    	super.init();
+    	try {
+    		productDbUtil = new ProductDbUtil();
+    	}
+    	catch(Exception e) {
+    		throw new ServletException(e);
+    	}
+    	
+    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+		
 	}
 
 	/**
@@ -34,6 +49,7 @@ public class ProductControllerServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		doGet(request, response);
 	}
 
 }
