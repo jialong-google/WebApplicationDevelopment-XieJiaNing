@@ -32,8 +32,39 @@ public class ProductOrderControlServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		addToCart(request);
+		String strAction = request.getParameter("action");
+		if (strAction.equals("add")){
+		addToCart(request);//add product to cart
+		}else if (strAction.equals("buy")){
+			
+			//get message: cart empty or not
+			String message = deleteCart(request);
+			
+			request.setAttribute("message", message);
+			//go to confirm page
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/confirmpage.jsp");	
+			dispatcher.forward(request, response);
+		}
 		response.sendRedirect("testproductorder2.jsp");
+	}
+
+	private String deleteCart(HttpServletRequest request) {
+		//get cart
+		HttpSession session = request.getSession(true);
+		ProductUtil productUtil = null;
+		Object objProductUtil = session.getAttribute("cart");
+		
+		if (objProductUtil != null){
+			productUtil = (ProductUtil) objProductUtil;
+			//delete cart list
+			productUtil.deleteList(session.getAttribute("username"));
+			return "notEmpty";
+		}else{
+			return "empty";
+		}
+		
+		
+		
 	}
 
 	private void addToCart(HttpServletRequest request) {

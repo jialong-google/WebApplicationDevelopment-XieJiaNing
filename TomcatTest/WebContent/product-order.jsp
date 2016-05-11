@@ -34,7 +34,8 @@
 	                    <input type="number" name="quantity">
 	                </div>
 	                <div class="submit">
-	                	<input type="submit" name="addToCart" value="Add to Cart">
+	                	<input type="hidden" name="action" value="add">
+	                	<input type="submit" value="Add to Cart">
 	                </div>
 	            	<hr>
 	            </div>

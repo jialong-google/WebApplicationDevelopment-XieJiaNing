@@ -1,11 +1,86 @@
 package productorder;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.*;
 
 public class ProductUtil {
 	private List<ProductObj> productlist = new ArrayList<>();
 	private double cartTotalCost;
 	
+	//for db connection
+	Connection conn = null;
+	PreparedStatement pStmt = null;
+	ResultSet rSet = null;
+	
+	public void deleteList(Object username){
+		String strname = (String) username;
+		storeList(strname);
+		productlist.clear();
+	}
+	
+	
+	private void storeList(String username) {
+		//connect jdbc
+		try{
+		Class.forName("org.postgresql.Driver");
+		conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/xiejianing", "jwxie", "12345");
+		conn.setAutoCommit(false);
+		
+		//create a statement from connection
+		Statement statement = conn.createStatement();
+		//insert the data
+		for (ProductObj product:productlist){
+			String name = product.getpName();
+			double price = product.getPrice();
+			int quantity = product.getQuantity();
+			String user = username;
+			
+			String sql = "INSERT INTO purchase (price, quantity, time, buyer, product) VALUES (?, ?, ?, ?, ?)";
+			pStmt = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			
+			pStmt.setString(1, );
+			pStmt.setString(2, validate[1]);
+			rSet = pStmt.executeQuery();
+			
+			
+			
+		}
+		//statement.executeUpdate("INSERT INTO Customers " + "VALUES (?, ?, ?, ?, ?)");
+		
+		}catch(Exception e){
+			
+		}finally {
+			close(conn, pStmt, rSet);
+		}
+		
+	}
+
+
+	private void close(Connection conn2, PreparedStatement pStmt2, ResultSet rSet2) {
+		try {
+			if (conn != null) {
+				conn.close();
+			}
+			
+			if (pStmt != null) {
+				pStmt.close();
+			}
+			
+			if (rSet != null) {
+				rSet.close();   // doesn't really close it ... just puts back in connection pool
+			}
+		}
+		catch (Exception exc) {
+			exc.printStackTrace();
+		}
+		
+	}
+
+
 	//add this product to product list
 	public void addProduct(String name, String quantity, double cost){
 		int pQuantity = 0;

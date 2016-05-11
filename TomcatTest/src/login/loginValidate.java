@@ -7,7 +7,9 @@ import java.sql.ResultSet;
 
 public class loginValidate {
 	
-	public static boolean isUserSigned(String[] validate) throws Exception {
+	private String userRole;
+	
+	public boolean isUserSigned(String[] validate) throws Exception {
 		Connection conn = null;
 		PreparedStatement pStmt = null;
 		ResultSet rSet = null;
@@ -26,7 +28,10 @@ public class loginValidate {
 			pStmt.setString(2, validate[1]);
 			rSet = pStmt.executeQuery();
 
+			//get user role
+			setUserRole(rSet.getString("role"));
 			
+			//return existance
 			isExist = rSet.next();
 			rSet.beforeFirst();
 			System.out.println(isExist);
@@ -40,6 +45,14 @@ public class loginValidate {
 		
 	}
 	
+	public String getUserRole() {
+		return userRole;
+	}
+
+	public void setUserRole(String userRole) {
+		this.userRole = userRole;
+	}
+
 	private static void close(Connection conn, PreparedStatement pStmt, ResultSet rSet) {
 
 		try {
