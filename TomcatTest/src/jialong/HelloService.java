@@ -1,4 +1,8 @@
+<<<<<<< HEAD:TomcatTest/src/HelloService.java
 
+=======
+package jialong;
+>>>>>>> 7c88a13530a594bf45583f424c32d67386382e8c:TomcatTest/src/jialong/HelloService.java
 import java.io.IOException;
 import java.io.PrintWriter;
 
