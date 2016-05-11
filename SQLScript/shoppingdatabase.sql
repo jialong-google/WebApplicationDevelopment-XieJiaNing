@@ -1,4 +1,4 @@
-CREATE TABLE users (
+﻿CREATE TABLE users (
 	user_id TEXT PRIMARY KEY,
 	password TEXT NOT NULL,
 	first_name TEXT NOT NULL,
@@ -14,9 +14,10 @@ CREATE TABLE products (
 	name TEXT NOT NULL UNIQUE
 );
 
-CREATE TABLE category (
-	name TEXT PRIMARY KEY,
-	description TEXT
+CREATE TABLE CATEGORY(
+	id SERIAL PRIMARY KEY,
+	name TEXT NOT NULL UNIQUE,
+	des TEXT
 );
 
 CREATE TABLE classification (
@@ -45,6 +46,7 @@ CREATE TABLE shoppingcart (
 
 INSERT INTO users (user_id, password, first_name, last_name, age, role, email)  VALUES ('XiejiaNing', 'xjn12345', 'Xiejia', 'Ning', 20, 'customer', 'cool@ucsd.edu');
 INSERT INTO products (sku, price, name) VALUES ('coolcool', 100.0, 'Introduction to Web Application');
-INSERT INTO category (name, description) VALUES ('Education','Materials, e.g., Book & CD, for educational purpose');
+INSERT INTO category (name, des) VALUES ('Education','Materials, e.g., Book & CD, for educational purpose');
 INSERT INTO classification (product, category) VALUES ('coolcool','Education');
 INSERT INTO purchase (price, quantity, time, buyer, product) VALUES (100.0, 1,'2:53 May 08 2016', 'XiejiaNing', 'coolcool');
+select * from users
