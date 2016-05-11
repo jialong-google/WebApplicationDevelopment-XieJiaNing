@@ -22,14 +22,14 @@ public class loginValidate {
 			String sql = "SELECT * FROM users WHERE user_id  = ? and password = ?";
 			pStmt = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			
-			pStmt.setString(1, validate[0].toUpperCase());
-			pStmt.setString(2, validate[1].toUpperCase());
+			pStmt.setString(1, validate[0]);
+			pStmt.setString(2, validate[1]);
 			rSet = pStmt.executeQuery();
-			
+
 			
 			isExist = rSet.next();
 			rSet.beforeFirst();
-			
+			System.out.println(isExist);
 			conn.commit();
 			conn.setAutoCommit(true);
 			return isExist;
