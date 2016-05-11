@@ -14,9 +14,10 @@ CREATE TABLE products (
 	name TEXT NOT NULL UNIQUE
 );
 
-CREATE TABLE category (
-	name TEXT PRIMARY KEY,
-	description TEXT
+CREATE TABLE CATEGORY(
+	id SERIAL PRIMARY KEY,
+	name TEXT NOT NULL UNIQUE,
+	des TEXT
 );
 
 CREATE TABLE classification (
