@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class loginValidate {
 	
@@ -18,9 +19,9 @@ public class loginValidate {
 		
 		try {
 			Class.forName("org.postgresql.Driver");
-			conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/xiejianing", "jwxie", "12345");
+			conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/cse135", "postgres", "");
 			conn.setAutoCommit(false);
-			
+			//pStmt= conn.prepareStatement("SELECT * FROM users");
 			String sql = "SELECT * FROM users WHERE user_id  = ? and password = ?";
 			pStmt = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			
@@ -28,16 +29,21 @@ public class loginValidate {
 			pStmt.setString(2, validate[1]);
 			rSet = pStmt.executeQuery();
 
-			//get user role
-			setUserRole(rSet.getString("role"));
+			
 			
 			//return existance
 			isExist = rSet.next();
+			//get user role
+			setUserRole(rSet.getString("role"));
 			rSet.beforeFirst();
 			System.out.println(isExist);
 			conn.commit();
 			conn.setAutoCommit(true);
 			return isExist;
+		}catch (SQLException e){
+			System.out.println("SQL problem");
+			throw e;
+			
 		}
 		finally {
 			close(conn, pStmt, rSet);

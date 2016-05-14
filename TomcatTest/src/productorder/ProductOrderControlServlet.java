@@ -1,6 +1,7 @@
 package productorder;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -34,23 +35,36 @@ public class ProductOrderControlServlet extends HttpServlet {
 		
 		String strAction = request.getParameter("action");
 		if (strAction.equals("add")){
-		addToCart(request);//add product to cart
+			addToCart(request);//add product to cart
+			response.sendRedirect("testproductorder2.jsp");
 		}else if (strAction.equals("buy")){
 			
 			//get message: cart empty or not
-			String message = deleteCart(request);
+			String message;
+			try {
+				message = deleteCart(request);
+				request.setAttribute("message", message);
+				//go to confirm page
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/confirmpage.jsp");	
+				dispatcher.forward(request, response);
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				request.setAttribute("errorSQL", e.getMessage());
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/confirmpage.jsp");	
+				dispatcher.forward(request, response);
+				
+			}
 			
-			request.setAttribute("message", message);
-			//go to confirm page
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/confirmpage.jsp");	
-			dispatcher.forward(request, response);
-		}
-		response.sendRedirect("testproductorder2.jsp");
+		}	
+		
 	}
 
-	private String deleteCart(HttpServletRequest request) {
+	private String deleteCart(HttpServletRequest request) throws ClassNotFoundException, SQLException {
 		//get cart
-		HttpSession session = request.getSession(true);
+		try {HttpSession session = request.getSession(true);
 		ProductUtil productUtil = null;
 		Object objProductUtil = session.getAttribute("cart");
 		
@@ -62,9 +76,9 @@ public class ProductOrderControlServlet extends HttpServlet {
 		}else{
 			return "empty";
 		}
-		
-		
-		
+		}catch (SQLException e){
+			throw e;
+		}
 	}
 
 	private void addToCart(HttpServletRequest request) {

@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class ProductUtil {
@@ -16,43 +18,66 @@ public class ProductUtil {
 	PreparedStatement pStmt = null;
 	ResultSet rSet = null;
 	
-	public void deleteList(Object username){
-		String strname = (String) username;
+	public void deleteList(Object username) throws ClassNotFoundException, SQLException{
+		try
+		{String strname = (String) username;
 		storeList(strname);
 		productlist.clear();
+		}catch (SQLException e){
+			throw e;
+		}
+		
 	}
 	
 	
-	private void storeList(String username) {
+	private void storeList(String username) throws SQLException, ClassNotFoundException {
 		//connect jdbc
 		try{
 		Class.forName("org.postgresql.Driver");
-		conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/xiejianing", "jwxie", "12345");
+		conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/cse135", "postgres", "");
 		conn.setAutoCommit(false);
 		
-		//create a statement from connection
-		Statement statement = conn.createStatement();
 		//insert the data
-		for (ProductObj product:productlist){
+		String timeStamp = new SimpleDateFormat("yyyy/MM/dd/HH/mm/ss").format(new Date());
+		System.out.println(timeStamp);
+		String user = username;
+		
+		String tempuser = "xjw";
+		System.out.println(productlist.toString());
+		//for (ProductObj product:productlist){
+		System.out.println("length:"+productlist.size());
+		for(int i=0;i<productlist.size();i++){
+			ProductObj product=productlist.get(i);
+			System.out.println(product.toString());
 			String name = product.getpName();
 			double price = product.getPrice();
 			int quantity = product.getQuantity();
-			String user = username;
 			
 			String sql = "INSERT INTO purchase (price, quantity, time, buyer, product) VALUES (?, ?, ?, ?, ?)";
 			pStmt = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			
-			pStmt.setString(1, );
-			pStmt.setString(2, validate[1]);
-			rSet = pStmt.executeQuery();
+			pStmt.setDouble(1, price);
+			//System.out.println(price);
+			pStmt.setInt(2, quantity);
+			//System.out.println(quantity);
+			pStmt.setString(3, timeStamp);
+			//System.out.println(timeStamp);
+			pStmt.setString(4, tempuser);
+			//System.out.println(tempuser);
+			pStmt.setString(5, name);
+			//System.out.println(name);
 			
-			
-			
+			pStmt.executeUpdate();
+			conn.commit();
 		}
-		//statement.executeUpdate("INSERT INTO Customers " + "VALUES (?, ?, ?, ?, ?)");
+		//conn.commit();
+		conn.setAutoCommit(true);
 		
-		}catch(Exception e){
+		}catch(SQLException e){
+			System.out.println("Oh fuck!");
+			throw e;
 			
+//			throw new SQLException();
 		}finally {
 			close(conn, pStmt, rSet);
 		}
