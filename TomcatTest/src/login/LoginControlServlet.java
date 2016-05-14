@@ -19,9 +19,13 @@ public class LoginControlServlet extends HttpServlet {
        
     /**
      * @see HttpServlet#HttpServlet()
+     * 
      */
+	private loginValidate loginvalidate; 
+
     public LoginControlServlet() {
         super();
+        loginvalidate = new loginValidate(); 
         // TODO Auto-generated constructor stub
     }
 
@@ -34,11 +38,13 @@ public class LoginControlServlet extends HttpServlet {
 			validate[0] = request.getParameter("username");
 			validate[1] = request.getParameter("password");
 			
-			boolean isUserSigned = loginValidate.isUserSigned(validate);
+			boolean isUserSigned = loginvalidate.isUserSigned(validate);
+			String userRole = loginvalidate.getUserRole();
 			
 			if (isUserSigned) {
 				HttpSession session = request.getSession();
 				session.setAttribute("username", validate[0]);
+				session.setAttribute("role", userRole);
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/product-order.jsp");//replace with home.jsp	
 				dispatcher.forward(request, response);
 			}

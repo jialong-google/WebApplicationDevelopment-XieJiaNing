@@ -21,32 +21,33 @@
              
 
 		<c:forEach var="tempProduct" items="${cart.productlist}">
-		<form method="GET" action="ProductOrderControlServlet">
-			<tr>
-				<td class="product_name">
-                      	<c:out value="${tempProduct.pName}"/>
-                   </td>
-                   <td class="product_price" >
-                       <h3><strong>$</strong>${tempProduct.price}</h3>
-                   </td>
-                   <td class="product_amount">
-                       <h3><strong>quantity:</strong>${tempProduct.quantity}</h3>
-                   </td>
-                   <td>
-                   	<h3><strong>$</strong>${tempProduct.totalprice}</h3>
-                   </td>
-                  </tr>
-                 </form>
+			<form method="GET" action="ProductOrderControlServlet" >
+				<tr>
+					<td class="product_name">
+	                      	<c:out value="${tempProduct.pName}"/>
+	                   </td>
+	                   <td class="product_price" >
+	                       <h3><strong>$</strong>${tempProduct.price}</h3>
+	                   </td>
+	                   <td class="product_amount">
+	                       <h3><strong>quantity:</strong>${tempProduct.quantity}</h3>
+	                   </td>
+	                   <td>
+	                   	<h3><strong>$</strong>${tempProduct.totalprice}</h3>
+	                   </td>
+	                  </tr>
+	         </form>
 		</c:forEach>
 	</table>
 	<br>
 	<h1>Total: $ ${cart.cartTotalCost}</h1>
 	<br>
-	<form class="payment" method = "GET" action="BuyConfirmControlServlet">
+	<form class="payment" method = "GET" action="ProductOrderControlServlet">
 	
 		<h3>Pay with credit card</h3>
 		<label>enter credit card number:</label>
 		<input type="text" placeholder="Your car number" required>
+		<input type="hidden" name="action" value="buy">
 		<input type="submit" value="Purchase"> 
 	</form>		
 
