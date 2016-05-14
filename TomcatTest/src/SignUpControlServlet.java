@@ -1,6 +1,7 @@
 
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -43,38 +44,30 @@ public class SignUpControlServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			String[] name = new String[2];
-			name[0] = request.getParameter("firstname");
-			name[1] = request.getParameter("lastname");
+			String firstName = request.getParameter("firstname");
+			String lastName = request.getParameter("lastname");
 			
-			String strAge = request.getParameter("Age");
+			
+			int strAge = Integer.parseInt(request.getParameter("Age"));
+			String role = request.getParameter("Role");
+			
+			String userID = request.getParameter("userID");
+			String password = request.getParameter("password");
+			String state = request.getParameter("state");
+			
 			//boolean isAgeValid = (strAge != null && !strAge.isEmpty());
 			//if () System.out.println("This string is null, length is " + strAge.length());
 			
-			boolean isUserExist = signUpValidate.isUserExist(name);
-			if (isUserExist) {
-				userSignFailPage(request, response);
-			}
-			else {
-				userSignSuccessPage(request, response);
-			}
-			
-		}
-		catch (Exception exc) {
-			throw new ServletException(exc);
-		}
-	}
-	
-	private void userSignSuccessPage(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/sign-up-success.jsp");	
+			signUpValidate.insertUser(firstName, lastName, strAge, role, userID, password,state);
+			request.setAttribute("sqlMessage", "Successfully signed up");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/sign-up.jsp");
 			dispatcher.forward(request, response);
-	}
-
-	private void userSignFailPage(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/sign-up-fail.jsp");
+		}
+		catch (SQLException exc) {
+			request.setAttribute("sqlMessage", "SQL:" + exc.getMessage());
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/sign-up.jsp");
 			dispatcher.forward(request, response);
+		}
 	}
 
 	/**
