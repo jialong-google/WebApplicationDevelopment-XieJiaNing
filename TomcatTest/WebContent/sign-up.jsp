@@ -89,9 +89,6 @@
 		
 		<label>&nbsp;</label>
 		<input type="submit" value="Sign up!">
-		
-	
-	
 	</form>
 </body>
 

@@ -13,7 +13,7 @@
 <body>
 <%
 	String role=(String) session.getAttribute("role");
-	if(role!="owner")
+	if(role==null || !role.equals("owner"))
 	{
 		%><h1>This page is open only to owner!</h1><%
 	//}
