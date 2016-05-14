@@ -8,31 +8,84 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Product Page</title>
 </head>
 
 <body>
 
-<input type="button" value="Insert Product" action="add-product.jsp">
+<form action= "ProductControllerServlet" method="GET">
+	<input type="hidden" name="command" value="SEARCH">
+	
+	<label>category</label>
+	<select name="searchCategory">
+		<option value="${searchCategory}" selected>${searchCategory}</option>
+		<c:forEach var="oneCategory" items="${sessionScope.category_list}">
+			<c:if test="${oneCategory != searchCategory}">
+				<option value="${oneCategory}">${oneCategory}</option>
+			</c:if>	
+		</c:forEach>
+	</select>
+	
+	&nbsp;
+	&nbsp;
+	<label>product name</label> <input type="text" name="searchString" value="${searchString}">
+	<input type="submit" value="Search">
+</form>
+<br>
 
-<%
-	String[] category_list = {"A","B","C","D","E","F"};
-%>
+
+<input type="button" value="Insert Product" onclick="window.location.href='add-product.jsp'">
+<h2>${sqlMessage}</h2>
 
 <c:forEach var="oneCategory" items="${category_list}">
 	<c:url var="categoryLink" value="ProductControllerServlet">
-		<c:param name="command"  value="category"/>
+		<c:param name="command"  value="CATEGORY"/>
 		<c:param name="category" value="${oneCategory}"/>	
-	</c:url>
-	
-	<a href="${categoryLink}">"${oneCategory}"</a>
+	</c:url>	
+	<a href="${categoryLink}">${oneCategory}</a>
 </c:forEach>
 
 
+<c:url var="allProductsLink" value="ProductControllerServlet">
+	<c:param name="command"  value="ALLPRODUCTS"/>
+</c:url>	
+<a href="${allProductsLink}">All Products</a>
+
 <table>
-	<c:forEach var="product" items="${product_list}">
+	<tr>
+		<th>SKU</th>
+		
+		<th>Name</th>
+		
+		<th>Price</th>
+		
+		<th>Category</th>
+		
+		<th>ACTION</th>
+		
+	</tr>
+	<c:forEach var="product" items="${productList}">
+		<c:url var="updateLink" value="ProductControllerServlet">
+			<c:param name="command" value="LOAD"/>
+			<c:param name="productName" value="${product.getName()}"/>
+		</c:url>
+		
+		<c:url var="deleteLink" value="ProductControllerServlet">
+			<c:param name="command" value="DELETE"/>
+			<c:param name="productName" value="${product.getName()}"/>
+		</c:url>
+		
 		<tr>
-			${product.name}$
+			<td>${product.getSku()}</td>
+			<td>${product.getName()}</td>
+			<td>${product.getPrice()}</td>
+			<td>${product.getCategory()}</td>
+						
+			<td>
+				<a href="${updateLink}">Update</a>
+				<a href="${deleteLink}" onclick="if (!(confirm('Are you sure you want to delete this product?'))) return false">Delete</a>
+			</td> 
+			
 		</tr>
 	</c:forEach>
 </table>
