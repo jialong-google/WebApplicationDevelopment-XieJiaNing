@@ -160,13 +160,17 @@
 	}
 %>
 
-
+<%
+String defaultcontent=request.getParameter("search_content");
+if(defaultcontent==null)
+	defaultcontent="";
+%>
 <table width="600" border="0">
 <tr valign="top">
 	<td colspan="2" style="background-color:#99bbbb;">
 	<form action="ProductBrowsing_Jia.jsp" method="POST">
         	<input type="hidden" name="action" value="search"/>
-              <input value="" name="search_content" size="70"/>
+              <input value="<%=defaultcontent %>" name="search_content" size="70"/>
               <input type="submit" value="Search"/>
 	</form>
 	</td>
@@ -198,16 +202,15 @@
 		for(Map.Entry<String,Double> entry: content.entrySet())
 		{
 			    String key = entry.getKey();
-			    double value = entry.getValue();
+			    String value = ""+entry.getValue();
+			    
 		%>
-			<%=key %>
+			<c:url value="product-order.jsp" var="f">
+				<c:param name="pName" value="<%=key%>"/>
+				<c:param name="price" value="<%=value%>"/>
+			</c:url>
+			<a href="${f}"><%=key%></a>
 			<br/>
-			
-			<!--c:url value="product-order.jsp" var="f"-->
-				<!--c:param name="pName" value="<%--=key --%>"/-->
-				<!--c:param name="price" value="<%--=value--%>"-->
-			<!--/c:url-->
-			<!-- a href="${f}"><%--=key--%></a-->
 			<%=value%>
 			<br/>
 			<br/>
