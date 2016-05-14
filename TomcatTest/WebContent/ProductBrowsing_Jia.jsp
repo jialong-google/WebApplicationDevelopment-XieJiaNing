@@ -21,6 +21,7 @@
 <%--get Categories --%>
 <%
 	ArrayList<String> categories= new ArrayList<String>();
+	LinkedHashMap<String,Double> content =new LinkedHashMap<String,Double>();
 	Connection conn = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
@@ -31,8 +32,7 @@
 
         // Open a connection to the database using DriverManager
         conn = DriverManager.getConnection(
-            "jdbc:postgresql://localhost:5432/postgres?" +
-	        "user=postgres&password=003426");
+            "jdbc:postgresql://localhost:5432/postgres?" +"user=postgres&password=003426");
 		conn.setAutoCommit(false);
     	pstmt=conn.prepareStatement("SELECT name FROM Category");
 		rs=pstmt.executeQuery();
@@ -40,6 +40,7 @@
 		{	
 			categories.add(rs.getString("name"));
 		}
+		categories.add("All products");
 		conn.setAutoCommit(true);
 		System.out.println(categories.toString());
 	}
@@ -55,8 +56,43 @@
 	System.out.println("action:"+action);
 	if(action!=null&& action.equals("search"))
 	{
-		System.out.println("the action is "+action);
 		System.out.println("search content is "+request.getParameter("search_content"));
+		System.out.println("current category "+session.getAttribute("current_category"));
+		String searchCate=(String)session.getAttribute("current_category");
+		String searchCont=(String)request.getParameter("search_content");
+		try {
+			content.clear();
+			if(searchCate.equals("All products"))//search from all products
+			{
+				conn.setAutoCommit(false);
+	    		pstmt=conn.prepareStatement("SELECT name,price FROM products WHERE name LIKE ?");
+	    		pstmt.setString(1, "%"+searchCont+"%");
+	    		rs=pstmt.executeQuery();
+				while(rs.next())
+				{	
+					content.put(rs.getString("name"), rs.getDouble("price"));
+				}
+				conn.setAutoCommit(true);
+				System.out.println(content.toString());
+			}
+			else{//search from only current products
+				conn.setAutoCommit(false);
+	    		pstmt=conn.prepareStatement("SELECT name,price FROM Classification,products Where classification.category=? AND products.sku=classification.product AND name like ?");
+	    		pstmt.setString(1, searchCate);
+	    		pstmt.setString(2,"%"+searchCont+"%");
+	    		rs=pstmt.executeQuery();
+				while(rs.next())
+				{	
+					content.put(rs.getString("name"), rs.getDouble("price"));
+				}
+				conn.setAutoCommit(true);
+				System.out.println(content.toString());
+			}
+		}
+		catch(SQLException e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 %>
 
@@ -65,43 +101,76 @@
 	if(action!=null && action.equals("category"))
 	{
 		String currentCate=request.getParameter("category_hit");
-		System.out.println("the action is "+ action);
-		System.out.println("which is hit: "+request.getParameter("category_hit"));
+		System.out.println("which is hit: "+currentCate);
 		session.setAttribute("current_category", currentCate);
 		try {
-		    // Registering Postgresql JDBC driver with the DriverManager
-		    //Class.forName("org.postgresql.Driver");
-
-	        // Open a connection to the database using DriverManager
-	        //conn = DriverManager.getConnection(
-	        //    "jdbc:postgresql://localhost:5432/postgres?" +
-		    //    "user=postgres&password=003426");
-			conn.setAutoCommit(false);
-	    	pstmt=conn.prepareStatement("SELECT name FROM Category,Classification,product, Where Category.name=classification.name ");/////////
-			rs=pstmt.executeQuery();
-			while(rs.next())
-			{	
-				categories.add(rs.getString("name"));
+			content.clear();
+			if(currentCate.equals("All products"))
+			{
+				conn.setAutoCommit(false);
+	    		pstmt=conn.prepareStatement("SELECT name,price FROM products");
+	    		rs=pstmt.executeQuery();
+				while(rs.next())
+				{	
+					content.put(rs.getString("name"), rs.getDouble("price"));
+				}
+				conn.setAutoCommit(true);
+				System.out.println(content.toString());
 			}
-			conn.setAutoCommit(true);
-			System.out.println(categories.toString());
+			else{
+				conn.setAutoCommit(false);
+	    		pstmt=conn.prepareStatement("SELECT name,price FROM Classification,products Where classification.category=? AND products.sku=classification.product");
+	    		pstmt.setString(1, currentCate);
+	    		rs=pstmt.executeQuery();
+				while(rs.next())
+				{	
+					content.put(rs.getString("name"), rs.getDouble("price"));
+				}
+				conn.setAutoCommit(true);
+				System.out.println(content.toString());
+			}
 		}
 		catch(SQLException e)
 		{
 			throw new RuntimeException(e);
 		}
 		
-		
+	}
+
+	if(action==null)
+	{
+		String currentCate="All products";
+		session.setAttribute("current_category", currentCate);
+		try {
+			content.clear();
+			conn.setAutoCommit(false);
+	    	pstmt=conn.prepareStatement("SELECT name,price FROM products");
+	    	rs=pstmt.executeQuery();
+			while(rs.next())
+			{	
+				content.put(rs.getString("name"), rs.getDouble("price"));
+			}
+			conn.setAutoCommit(true);
+			System.out.println(content.toString());	
+		}
+		catch(SQLException e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 %>
 
-
+<%
+String defaultcontent=request.getParameter("search_content");
+if(defaultcontent==null)
+	defaultcontent="";
+%>
 <table width="600" border="0">
 <tr valign="top">
 	<td colspan="2" style="background-color:#99bbbb;">
 	<form action="ProductBrowsing_Jia.jsp" method="POST">
         	<input type="hidden" name="action" value="search"/>
-              <input value="" name="search_content" size="70"/>
+              <input value="<%=defaultcontent %>" name="search_content" size="70"/>
               <input type="submit" value="Search"/>
 	</form>
 	</td>
@@ -128,8 +197,26 @@
 	</td>
 
 	<td style="background-color:#EEEEEE;width:400px;text-align:top;">
-		Content goes here
 	<%-- show result, if hit, go to product order--%>
+		<% 
+		for(Map.Entry<String,Double> entry: content.entrySet())
+		{
+			    String key = entry.getKey();
+			    String value = ""+entry.getValue();
+			    
+		%>
+			<c:url value="product-order.jsp" var="f">
+				<c:param name="pName" value="<%=key%>"/>
+				<c:param name="price" value="<%=value%>"/>
+			</c:url>
+			<a href="${f}"><%=key%></a>
+			<br/>
+			<%=value%>
+			<br/>
+			<br/>
+			<%
+		}
+		%>
 	</td>
 </tr>
 
