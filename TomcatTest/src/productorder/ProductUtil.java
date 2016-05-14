@@ -52,12 +52,15 @@ public class ProductUtil {
 			String name = product.getpName();
 			double price = product.getPrice();
 			int quantity = product.getQuantity();
+			
+			
 			//get sku from database
 			String sql1 = "SELECT sku FROM products WHERE name=?";
 			pStmt = conn.prepareStatement(sql1,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			pStmt.setString(1,name);
-			ResultSet skuQuery = pStmt.executeQuery();
-			String sku = skuQuery.getString("sku");//get sku
+			rSet = pStmt.executeQuery();
+			rSet.next();
+			String sku = rSet.getString("sku");//get sku
 			
 			String sql2 = "INSERT INTO purchase (price, quantity, time, buyer, product) VALUES (?, ?, ?, ?, ?)";
 			
