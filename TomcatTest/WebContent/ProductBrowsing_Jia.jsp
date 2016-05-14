@@ -34,7 +34,7 @@
         conn = DriverManager.getConnection(
             "jdbc:postgresql://localhost:5432/postgres?" +"user=postgres&password=003426");
 		conn.setAutoCommit(false);
-    	pstmt=conn.prepareStatement("SELECT name FROM Category");
+    	pstmt=conn.prepareStatement("SELECT name FROM Categories");
 		rs=pstmt.executeQuery();
 		while(rs.next())
 		{	
