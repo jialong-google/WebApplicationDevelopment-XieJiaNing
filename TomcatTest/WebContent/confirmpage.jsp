@@ -24,6 +24,6 @@
 		
 	<h2>${errorSQL}</h2>
 	
-	<a href="testproductorder.jsp">click to go back to product browsing page (current test page)</a>
+	<a href="ProductBrowsing_Jia.jsp">click to go back to product browsing page (current test page)</a>
 </body>
 </html>
