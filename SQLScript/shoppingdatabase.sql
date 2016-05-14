@@ -1,11 +1,11 @@
 ﻿CREATE TABLE users (
-	user_id TEXT PRIMARY KEY,
+	user_id TEXT PRIMARY KEY UNIQUE,
 	password TEXT NOT NULL,
 	first_name TEXT NOT NULL,
 	last_name TEXT NOT NULL,
+	state TEXT NOT NULL;
 	age INTEGER NOT NULL CHECK (age > 0),
 	role TEXT NOT NULL,
-	email TEXT NOT NULL
 );
 
 CREATE TABLE categories(
