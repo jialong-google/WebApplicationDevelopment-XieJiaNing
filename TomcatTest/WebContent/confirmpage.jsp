@@ -7,7 +7,23 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<%
+		String message = (String)request.getAttribute("message");
+		if (message==null) {
+			System.out.println("Messagae is null");
+		}
+		else if (message.equals("notEmpty")){
+	%>
 	<h1>Congradulations! Your Products are Bought Successfully!</h1>
-	<a href="testproductorder.jsp">click to go back to product browsing page (current test page)</a>
+	<%
+		}else{
+	%>
+	<h1>Uh-Oh! Your Shopping-Cart is Empty!</h1>
+	<%
+		}%>
+		
+	<h2>${errorSQL}</h2>
+	
+	<a href="ProductBrowsing_Jia.jsp">click to go back to product browsing page (current test page)</a>
 </body>
 </html>

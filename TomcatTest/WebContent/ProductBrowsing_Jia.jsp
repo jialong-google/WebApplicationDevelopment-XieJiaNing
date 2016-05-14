@@ -32,7 +32,7 @@
 
         // Open a connection to the database using DriverManager
         conn = DriverManager.getConnection(
-            "jdbc:postgresql://localhost:5432/postgres?" +"user=postgres&password=003426");
+            "jdbc:postgresql://127.0.0.1:5432/cse135", "postgres", "");
 		conn.setAutoCommit(false);
     	pstmt=conn.prepareStatement("SELECT name FROM Category");
 		rs=pstmt.executeQuery();
@@ -220,11 +220,17 @@ if(defaultcontent==null)
 	</td>
 </tr>
 
-
+<tr valign="top">
+	<td colspan="2" style="background-color:#99bbbb;">
+		<a href="buy-shopping-cart.jsp">Shopping carts</a>
+	</td>
+</tr>
 </table>
 
 <%
 	}
 %>
+<jsp:include page="Home_Jia.jsp"/>
 </body>
+
 </html>
