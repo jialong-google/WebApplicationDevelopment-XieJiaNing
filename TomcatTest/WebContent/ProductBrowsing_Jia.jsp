@@ -198,16 +198,15 @@
 		for(Map.Entry<String,Double> entry: content.entrySet())
 		{
 			    String key = entry.getKey();
-			    double value = entry.getValue();
+			    String value = ""+entry.getValue();
+			    
 		%>
-			<%=key %>
+			<c:url value="product-order.jsp" var="f">
+				<c:param name="pName" value="<%=key%>"/>
+				<c:param name="price" value="<%=value%>"/>
+			</c:url>
+			<a href="${f}"><%=key%></a>
 			<br/>
-			
-			<!--c:url value="product-order.jsp" var="f"-->
-				<!--c:param name="pName" value="<%--=key --%>"/-->
-				<!--c:param name="price" value="<%--=value--%>"-->
-			<!--/c:url-->
-			<!-- a href="${f}"><%--=key--%></a-->
 			<%=value%>
 			<br/>
 			<br/>
