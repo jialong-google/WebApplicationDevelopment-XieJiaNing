@@ -2,41 +2,46 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class SignUpValidate {
-	
-	public boolean isUserExist(String[] userName) throws Exception {
+	public void insertUser(String firstName, String lastName, int strAge, String role, String userID, String password, String state) throws SQLException {
 		Connection conn = null;
 		PreparedStatement pStmt = null;
 		ResultSet rSet = null;
 		
-		boolean isExist = false;
-		
 		try {
 			Class.forName("org.postgresql.Driver");
-			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/sign-up?" + "user=postgres&password=mn1987");
+			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/main?" + "user=postgres&password=mn1987");
 			conn.setAutoCommit(false);
 			
-			String sql = "SELECT * FROM USERS WHERE FirstName  = ? AND LastName = ?";
-			pStmt = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			String sql = "INSERT INTO users (user_id, password, first_name, last_name, age, role, state) "
+					+ "VALUES(?,?,?,?,?,?,?)";
+			pStmt = conn.prepareStatement(sql);
 			
-			pStmt.setString(1, userName[0].toUpperCase());
-			pStmt.setString(2, userName[1].toUpperCase());
-			rSet = pStmt.executeQuery();
+			pStmt.setString(1, userID);
+			pStmt.setString(2,password);
+			pStmt.setString(3,firstName);
+			pStmt.setString(4,lastName);
+			pStmt.setInt(5,strAge);
+			pStmt.setString(6,role);
+			pStmt.setString(7,state);
 			
-			
-			isExist = rSet.next();
-			rSet.beforeFirst();
-			
+			pStmt.executeUpdate();
 			conn.commit();
 			conn.setAutoCommit(true);
-			return isExist;
+		}
+		catch(SQLException exc) {
+			throw exc;
+		}
+		catch(Exception exc) {
+			exc.printStackTrace();
 		}
 		finally {
 			close(conn, pStmt, rSet);
-		}	
-		
+		}
 	}
+	
 	
 	private void close(Connection conn, PreparedStatement pStmt, ResultSet rSet) {
 

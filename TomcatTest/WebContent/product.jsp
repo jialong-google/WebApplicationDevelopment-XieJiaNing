@@ -51,8 +51,10 @@
 </c:url>	
 <a href="${allProductsLink}">All Products</a>
 
-<table>
-	<tr>
+<br><br>
+
+<table width="600" border="0">
+	<tr valign="top">
 		<th>SKU</th>
 		
 		<th>Name</th>
@@ -63,7 +65,7 @@
 		
 		<th>ACTION</th>
 		
-	</tr>
+	</tr >
 	<c:forEach var="product" items="${productList}">
 		<c:url var="updateLink" value="ProductControllerServlet">
 			<c:param name="command" value="LOAD"/>
@@ -76,12 +78,20 @@
 		</c:url>
 		
 		<tr>
-			<td>${product.getSku()}</td>
-			<td>${product.getName()}</td>
-			<td>${product.getPrice()}</td>
-			<td>${product.getCategory()}</td>
+			<td style="width:100px;text-align:center;">
+				${product.getSku()}
+			</td>
+			<td style="width:100px;text-align:center;">
+				${product.getName()}
+			</td>
+			<td style="width:100px;text-align:center;">
+				${product.getPrice()}
+			</td>
+			<td style="width:100px;text-align:center;">
+				${product.getCategory()}
+			</td>
 						
-			<td>
+			<td style="width:100px;text-align:center;">
 				<a href="${updateLink}">Update</a>
 				<a href="${deleteLink}" onclick="if (!(confirm('Are you sure you want to delete this product?'))) return false">Delete</a>
 			</td> 
