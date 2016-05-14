@@ -8,22 +8,26 @@
 	email TEXT NOT NULL
 );
 
-CREATE TABLE products (
-	sku TEXT PRIMARY KEY,
-	price FLOAT NOT NULL CHECK (price > 0),
-	name TEXT NOT NULL UNIQUE
-);
-
-CREATE TABLE CATEGORY(
+CREATE TABLE categories(
 	id SERIAL PRIMARY KEY,
 	name TEXT NOT NULL UNIQUE,
 	des TEXT
 );
 
+
+CREATE TABLE products (
+	sku TEXT PRIMARY KEY,
+	price FLOAT NOT NULL CHECK (price > 0),
+	name TEXT NOT NULL UNIQUE,
+	category TEXT REFERENCES categories(name) NOT NULL
+);
+
+
+
 CREATE TABLE classification (
 	id SERIAL PRIMARY KEY,
 	product TEXT REFERENCES products(sku) NOT NULL,
-	category TEXT REFERENCES category(name) NOT NULL
+	category TEXT REFERENCES categories(name) NOT NULL
 );
 
 CREATE TABLE purchase (
@@ -44,9 +48,15 @@ CREATE TABLE shoppingcart (
 
 );
 
-INSERT INTO users (user_id, password, first_name, last_name, age, role, email)  VALUES ('XiejiaNing', 'xjn12345', 'Xiejia', 'Ning', 20, 'customer', 'cool@ucsd.edu');
-INSERT INTO products (sku, price, name) VALUES ('coolcool', 100.0, 'Introduction to Web Application');
-INSERT INTO category (name, des) VALUES ('Education','Materials, e.g., Book & CD, for educational purpose');
-INSERT INTO classification (product, category) VALUES ('coolcool','Education');
-INSERT INTO purchase (price, quantity, time, buyer, product) VALUES (100.0, 1,'2:53 May 08 2016', 'XiejiaNing', 'coolcool');
-select * from users
+
+INSERT INTO categories (name, des) VALUES ('A','init A');
+INSERT INTO categories (name, des) VALUES ('B','init B');
+INSERT INTO categories (name, des) VALUES ('C','init C');
+INSERT INTO categories (name, des) VALUES ('D','init D');
+INSERT INTO categories (name, des) VALUES ('E','init E');
+
+
+
+DELETE FROM classification WHERE EXISTS"
+					+ "SELECT * FROM products  WHERE classification.product=products.sku"
+					+ "AND products.name=?
