@@ -9,6 +9,7 @@
 </head>
 
 <body>
+<h2>${sqlMessage}</h2>
 	<form method = "GET" action="SignUpControlServlet">
 		<label>First Name</label>
 		<input type="text" name="firstname" placeholder="Your first name" required>
@@ -28,6 +29,14 @@
 		
 		<label>Your Age</label>
 		<input type="text" name="Age" id="age" placeholder="Your age" required>
+		<br>
+		
+		<label>User ID</label>
+		<input type="text" name="userID" id="user_id" placeholder="Your user ID" required>
+		<br>
+		
+		<label>Password</label>
+		<input type="text" name="password" id="age" placeholder="Password" required>
 		<br>
 		
 		<label>Your State</label>
