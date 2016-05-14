@@ -24,11 +24,12 @@
 	            <div class="current item">
 	            	<h1>Set quantity for current item</h1>
 	            	<div class="product_name">
-                        <h2><%=session.getAttribute("pName") %></h2>
+                        <h2><%=request.getParameter("pName") %></h2>
+                        <input type="hidden" name="pName" value="<%=request.getParameter("pName")%>">
 	                </div>
 	                <div class="product_price" >
-	                    <h3><strong>$</strong><%=session.getAttribute("price") %>
-	                    </h3>
+	                    <h3><strong>$</strong><%=request.getParameter("price") %></h3>
+	                    <input type="hidden" name="price" value="<%=request.getParameter("price")%>">
 	                </div>
                     <div class="product_amount">
 	                    <input type="number" name="quantity">

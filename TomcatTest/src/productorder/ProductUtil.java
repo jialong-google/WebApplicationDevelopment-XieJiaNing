@@ -52,9 +52,16 @@ public class ProductUtil {
 			String name = product.getpName();
 			double price = product.getPrice();
 			int quantity = product.getQuantity();
+			//get sku from database
+			String sql1 = "SELECT sku FROM products WHERE name=?";
+			pStmt = conn.prepareStatement(sql1,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			pStmt.setString(1,name);
+			ResultSet skuQuery = pStmt.executeQuery();
+			String sku = skuQuery.getString("sku");//get sku
 			
-			String sql = "INSERT INTO purchase (price, quantity, time, buyer, product) VALUES (?, ?, ?, ?, ?)";
-			pStmt = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			String sql2 = "INSERT INTO purchase (price, quantity, time, buyer, product) VALUES (?, ?, ?, ?, ?)";
+			
+			pStmt = conn.prepareStatement(sql2,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			
 			pStmt.setDouble(1, price);
 			//System.out.println(price);
@@ -64,7 +71,7 @@ public class ProductUtil {
 			//System.out.println(timeStamp);
 			pStmt.setString(4, tempuser);
 			//System.out.println(tempuser);
-			pStmt.setString(5, name);
+			pStmt.setString(5, sku);
 			//System.out.println(name);
 			
 			pStmt.executeUpdate();

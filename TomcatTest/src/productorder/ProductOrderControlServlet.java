@@ -36,7 +36,7 @@ public class ProductOrderControlServlet extends HttpServlet {
 		String strAction = request.getParameter("action");
 		if (strAction.equals("add")){
 			addToCart(request);//add product to cart
-			response.sendRedirect("testproductorder2.jsp");
+			response.sendRedirect("ProductBrowsing_Jia.jsp");
 		}else if (strAction.equals("buy")){
 			
 			//get message: cart empty or not
@@ -85,9 +85,11 @@ public class ProductOrderControlServlet extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		String strQuantity = request.getParameter("quantity");
 		//System.out.println(strQuantity);
-		double price = (double)session.getAttribute("price");
+		double price = Double.parseDouble(request.getParameter("price"));
 		//System.out.println(price);
-		String strName = (String)session.getAttribute("pName");
+		String strName = (String)request.getParameter("pName");
+		System.out.println("!!!!!");
+		System.out.println(strName);
 		//System.out.println(strName);
 		
 		//get cart
