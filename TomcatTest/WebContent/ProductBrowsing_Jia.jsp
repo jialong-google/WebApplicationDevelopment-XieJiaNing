@@ -230,5 +230,7 @@ if(defaultcontent==null)
 <%
 	}
 %>
+<jsp:include page="Home_Jia.jsp"/>
 </body>
+
 </html>
