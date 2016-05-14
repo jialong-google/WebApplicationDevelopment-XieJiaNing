@@ -32,7 +32,7 @@
 
         // Open a connection to the database using DriverManager
         conn = DriverManager.getConnection(
-            "jdbc:postgresql://127.0.0.1:5432/cse135", "postgres", "" );
+        		"jdbc:postgresql://localhost:5432/postgres?" +"user=postgres&password=003426" );
 		conn.setAutoCommit(false);
     	pstmt=conn.prepareStatement("SELECT name FROM Categories");
 		rs=pstmt.executeQuery();
