@@ -8,7 +8,7 @@
 </head>
 <body>
 	<%
-		String product = "cool";
+		String product = "coolcool";
 		double price = 100.00;
 		session.setAttribute("price",price);
 		session.setAttribute("pName",product);
