@@ -34,7 +34,7 @@
         conn = DriverManager.getConnection(
             "jdbc:postgresql://127.0.0.1:5432/cse135", "postgres", "" );
 		conn.setAutoCommit(false);
-    	pstmt=conn.prepareStatement("SELECT name FROM Category");
+    	pstmt=conn.prepareStatement("SELECT name FROM Categories");
 		rs=pstmt.executeQuery();
 		while(rs.next())
 		{	
@@ -220,7 +220,11 @@ if(defaultcontent==null)
 	</td>
 </tr>
 
-
+<tr valign="top">
+	<td colspan="2" style="background-color:#99bbbb;">
+		<a href="buy-shopping-cart.jsp">Shopping carts</a>
+	</td>
+</tr>
 </table>
 
 <%

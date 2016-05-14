@@ -56,7 +56,7 @@
 	                    // Create the prepared statement and use it to
 	                    // INSERT student values INTO the students table.
 	                    pstmt = conn
-	                    .prepareStatement("INSERT INTO Category (id, name, des) VALUES (?,?, ?)");
+	                    .prepareStatement("INSERT INTO Categories (id, name, des) VALUES (?,?, ?)");
 	                    pstmt.setInt(1, nextID);//????
 	                    if(!request.getParameter("name").isEmpty())
 	                    	pstmt.setString(2, request.getParameter("name"));
@@ -77,7 +77,7 @@
                     conn.setAutoCommit(false);
                     // Create the prepared statement and use it to
                     // UPDATE student values in the Students table.
-                    pstmt=conn.prepareStatement("SELECT * FROM Category WHERE id = ?");
+                    pstmt=conn.prepareStatement("SELECT * FROM Categories WHERE id = ?");
                 	pstmt.setInt(1, Integer.parseInt(request.getParameter("id")));
                 	rs=pstmt.executeQuery();
                 	if(rs.next())///???????
@@ -89,7 +89,7 @@
                 	}
                 	conn.commit();
                 	
-                    pstmt = conn.prepareStatement("UPDATE Category SET name = ?, des = ? "
+                    pstmt = conn.prepareStatement("UPDATE Categories SET name = ?, des = ? "
                             + "WHERE id = ?");
 					System.out.println("three for update:");
 					System.out.println(request.getParameter("name"));
@@ -118,7 +118,7 @@
                     conn.setAutoCommit(false);
                 	// Use the created statement to SELECT
                 	// the student attributes FROM the Student table.
-                	pstmt=conn.prepareStatement("SELECT * FROM Category WHERE id = ?");
+                	pstmt=conn.prepareStatement("SELECT * FROM Categories WHERE id = ?");
                 	pstmt.setInt(1, Integer.parseInt(request.getParameter("id")));
                 	rs=pstmt.executeQuery();
                 	if(rs.next())///???????
@@ -128,7 +128,7 @@
                 	conn.commit();
            			
                 	    pstmt = conn
-                	        .prepareStatement("DELETE FROM Category WHERE id = ?");
+                	        .prepareStatement("DELETE FROM Categories WHERE id = ?");
 
                 	    pstmt.setInt(1, Integer.parseInt(request.getParameter("id")));
                 	    int rowCount = pstmt.executeUpdate();
@@ -146,7 +146,7 @@
 
                 // Use the created statement to SELECT
                 // the student attributes FROM the Student table.
-                rs = statement.executeQuery("SELECT * FROM Category ORDER BY id");
+                rs = statement.executeQuery("SELECT * FROM Categories ORDER BY id");
             %>
             
 	            <%-- Add an HTML table header row to format the results --%>
