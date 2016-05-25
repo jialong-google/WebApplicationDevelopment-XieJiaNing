@@ -45,7 +45,7 @@ public class LoginControlServlet extends HttpServlet {
 				HttpSession session = request.getSession();
 				session.setAttribute("username", validate[0]);
 				session.setAttribute("role", userRole);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/product-order.jsp");//replace with home.jsp	
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/Home_Jia.jsp");//replace with home.jsp	
 				dispatcher.forward(request, response);
 			}
 			else {
