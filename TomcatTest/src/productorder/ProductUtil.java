@@ -42,7 +42,7 @@ public class ProductUtil {
 		System.out.println(timeStamp);
 		String user = username;
 		
-		String tempuser = "xjw";
+		//String tempuser = "xjw";
 		System.out.println(productlist.toString());
 		//for (ProductObj product:productlist){
 		System.out.println("length:"+productlist.size());
@@ -72,7 +72,7 @@ public class ProductUtil {
 			//System.out.println(quantity);
 			pStmt.setString(3, timeStamp);
 			//System.out.println(timeStamp);
-			pStmt.setString(4, tempuser);
+			pStmt.setString(4, user);
 			//System.out.println(tempuser);
 			pStmt.setString(5, sku);
 			//System.out.println(name);
