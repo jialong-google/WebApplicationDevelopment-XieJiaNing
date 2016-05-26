@@ -21,7 +21,11 @@
                 <input type="password" name="password"/>
             </div>
             <button type="submit" class="button">Login</button>
-            <button class="button">Sign up</button>
+            <!--  button class="button">Sign up</button>-->
         </form>
+        <form action="sign-up.jsp" method="POST">
+        	    <!--input type="hidden" name="action" value=""/ -->
+        	    <input type="submit" value="Sign up"/>
+       	</form>  
 </body>
 </html>

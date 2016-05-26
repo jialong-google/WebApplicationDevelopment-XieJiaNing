@@ -35,7 +35,10 @@ public class ProductControllerServlet extends HttpServlet {
     	super.init();
     	try {
     		Class.forName("org.postgresql.Driver");
-    		Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/main?" + "user=postgres&password=mn1987");
+    		Connection conn;
+    		conn = DriverManager.getConnection(
+    	            "jdbc:postgresql://localhost:5432/postgres?" +
+        	        "user=postgres&password=003426");
     		productDbUtil = new ProductDbUtil(conn);
     	}
     	catch(Exception e) {

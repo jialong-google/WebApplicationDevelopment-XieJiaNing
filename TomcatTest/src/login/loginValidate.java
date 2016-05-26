@@ -19,7 +19,9 @@ public class loginValidate {
 		
 		try {
 			Class.forName("org.postgresql.Driver");
-			conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/cse135", "postgres", "");
+			conn = DriverManager.getConnection(
+    	            "jdbc:postgresql://localhost:5432/postgres?" +
+        	        "user=postgres&password=003426");
 			conn.setAutoCommit(false);
 			//pStmt= conn.prepareStatement("SELECT * FROM users");
 			String sql = "SELECT * FROM users WHERE user_id  = ? and password = ?";
@@ -42,7 +44,8 @@ public class loginValidate {
 			return isExist;
 		}catch (SQLException e){
 			System.out.println("SQL problem");
-			throw e;
+			//throw e;
+			return false;
 			
 		}
 		finally {

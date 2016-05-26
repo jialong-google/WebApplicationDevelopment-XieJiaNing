@@ -12,7 +12,9 @@ public class SignUpValidate {
 		
 		try {
 			Class.forName("org.postgresql.Driver");
-			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/main?" + "user=postgres&password=mn1987");
+			conn = DriverManager.getConnection(
+    	            "jdbc:postgresql://localhost:5432/postgres?" +
+        	        "user=postgres&password=003426");
 			conn.setAutoCommit(false);
 			
 			String sql = "INSERT INTO users (user_id, password, first_name, last_name, age, role, state) "

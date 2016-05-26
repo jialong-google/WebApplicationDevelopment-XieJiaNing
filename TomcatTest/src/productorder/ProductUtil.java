@@ -34,7 +34,9 @@ public class ProductUtil {
 		//connect jdbc
 		try{
 		Class.forName("org.postgresql.Driver");
-		conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/cse135", "postgres", "");
+		conn = DriverManager.getConnection(
+	            "jdbc:postgresql://localhost:5432/postgres?" +
+    	        "user=postgres&password=003426");
 		conn.setAutoCommit(false);
 		
 		//insert the data
@@ -42,7 +44,7 @@ public class ProductUtil {
 		System.out.println(timeStamp);
 		String user = username;
 		
-		String tempuser = "xjw";
+		//String tempuser = "xjw";
 		System.out.println(productlist.toString());
 		//for (ProductObj product:productlist){
 		System.out.println("length:"+productlist.size());
@@ -72,8 +74,8 @@ public class ProductUtil {
 			//System.out.println(quantity);
 			pStmt.setString(3, timeStamp);
 			//System.out.println(timeStamp);
-			pStmt.setString(4, tempuser);
-			//System.out.println(tempuser);
+			pStmt.setString(4, user);
+			//System.out.println(user);
 			pStmt.setString(5, sku);
 			//System.out.println(name);
 			

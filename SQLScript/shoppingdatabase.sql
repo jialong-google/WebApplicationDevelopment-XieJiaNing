@@ -3,7 +3,7 @@
 	password TEXT NOT NULL,
 	first_name TEXT NOT NULL,
 	last_name TEXT NOT NULL,
-	state TEXT NOT NULL;
+	state TEXT NOT NULL,
 	age INTEGER NOT NULL CHECK (age > 0),
 	role TEXT NOT NULL,
 );
@@ -55,8 +55,13 @@ INSERT INTO categories (name, des) VALUES ('C','init C');
 INSERT INTO categories (name, des) VALUES ('D','init D');
 INSERT INTO categories (name, des) VALUES ('E','init E');
 
+Drop table shoppingcart
+Drop table purchase
+Drop table classification
+Drop table products
+Drop table categories
+Drop table users
 
 
-DELETE FROM classification WHERE EXISTS"
-					+ "SELECT * FROM products  WHERE classification.product=products.sku"
-					+ "AND products.name=?
+Select * from users;
+

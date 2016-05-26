@@ -22,7 +22,9 @@ public class ProductDbUtil {
 		ResultSet rSet = null;
 		
 		try {
-			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/main?" + "user=postgres&password=mn1987");
+			conn = DriverManager.getConnection(
+    	            "jdbc:postgresql://localhost:5432/postgres?" +
+        	        "user=postgres&password=003426");
 			conn.setAutoCommit(false);
 			
 			String sql = "SELECT * FROM products p WHERE p.category = ? ORDER BY p.name";
@@ -60,7 +62,9 @@ public class ProductDbUtil {
 		ResultSet rSet = null;
 		
 		try {
-			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/main?" + "user=postgres&password=mn1987");
+			conn = DriverManager.getConnection(
+    	            "jdbc:postgresql://localhost:5432/postgres?" +
+        	        "user=postgres&password=003426");
 			conn.setAutoCommit(false);
 			
 			//System.out.println("insert into products");
@@ -106,7 +110,9 @@ public class ProductDbUtil {
 		ResultSet rSet = null;
 		
 		try {
-			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/main?" + "user=postgres&password=mn1987");
+			conn = DriverManager.getConnection(
+    	            "jdbc:postgresql://localhost:5432/postgres?" +
+        	        "user=postgres&password=003426");
 			conn.setAutoCommit(false);
 			
 			String sql = "SELECT * FROM products p ORDER BY p.name";
@@ -147,7 +153,9 @@ public class ProductDbUtil {
 		//System.out.println("searchCategory " + searchCategory);
 		//System.out.println("searchProduct " + searchProduct);
 		try {
-			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/main?" + "user=postgres&password=mn1987");
+			conn = DriverManager.getConnection(
+    	            "jdbc:postgresql://localhost:5432/postgres?" +
+        	        "user=postgres&password=003426");
 			conn.setAutoCommit(false);
 			String sql = "";
 			
@@ -207,7 +215,9 @@ public class ProductDbUtil {
 		//System.out.println("searchCategory " + searchCategory);
 		//System.out.println("searchProduct " + searchProduct);
 		try {
-			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/main?" + "user=postgres&password=mn1987");
+			conn = DriverManager.getConnection(
+    	            "jdbc:postgresql://localhost:5432/postgres?" +
+        	        "user=postgres&password=003426");
 			conn.setAutoCommit(false);
 			System.out.println(productName);
 			String sql = "";
@@ -247,7 +257,9 @@ public class ProductDbUtil {
 		Product theProduct = null;
 		
 		try {
-			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/main?" + "user=postgres&password=mn1987");
+			conn = DriverManager.getConnection(
+    	            "jdbc:postgresql://localhost:5432/postgres?" +
+        	        "user=postgres&password=003426");
 			conn.setAutoCommit(false);
 			
 			String sql = "SELECT * FROM products WHERE name=?";
@@ -288,7 +300,9 @@ public class ProductDbUtil {
 		ResultSet rSet = null;
 		
 		try {
-			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/main?" + "user=postgres&password=mn1987");
+			conn = DriverManager.getConnection(
+    	            "jdbc:postgresql://localhost:5432/postgres?" +
+        	        "user=postgres&password=003426");
 			conn.setAutoCommit(false);
 			
 			//System.out.println("insert into products");
@@ -339,7 +353,9 @@ public class ProductDbUtil {
 		ResultSet rSet = null;
 		
 		try {
-			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/main?" + "user=postgres&password=mn1987");
+			conn = DriverManager.getConnection(
+    	            "jdbc:postgresql://localhost:5432/postgres?" +
+        	        "user=postgres&password=003426");
 			conn.setAutoCommit(false);
 			
 			//System.out.println("insert into products");
