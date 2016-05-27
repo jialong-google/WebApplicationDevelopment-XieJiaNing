@@ -16,8 +16,8 @@
 	if(role==null || !role.equals("owner"))
 	{
 		%><h1>This page is open only to owner!</h1><%
-	//}
-	//else{
+	}
+	else{
 %>
 	<table>
 		<tr>
@@ -41,8 +41,7 @@
 	
 		                // Open a connection to the database using DriverManager
 	    	            conn = DriverManager.getConnection(
-	        	            "jdbc:postgresql://localhost:5432/postgres?" +
-	            	        "user=postgres&password=003426");
+	    	            		"jdbc:postgresql://localhost:5432/main?" + "user=postgres&password=mn1987");
 				%>
 				<%--insertion codes --%>
 				<%

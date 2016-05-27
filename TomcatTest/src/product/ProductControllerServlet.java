@@ -50,6 +50,7 @@ public class ProductControllerServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
+			System.out.println("okkkk");
 			String theCommand = request.getParameter("command");
 			if (theCommand == null) {
 				theCommand = "other";
@@ -107,11 +108,13 @@ public class ProductControllerServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		List<String> categoryList = productDbUtil.getCategory();
 		
+		HttpSession session = request.getSession();
+	    session.setAttribute("category_list", categoryList);
+		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/product.jsp");
 		dispatcher.forward(request, response);
 		
-		HttpSession session = request.getSession();
-	    session.setAttribute("category_list", categoryList);
+		
 		
 	}
 	

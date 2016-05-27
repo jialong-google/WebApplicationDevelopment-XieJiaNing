@@ -3,9 +3,9 @@
 	password TEXT NOT NULL,
 	first_name TEXT NOT NULL,
 	last_name TEXT NOT NULL,
-	state TEXT NOT NULL;
+	state TEXT NOT NULL,
 	age INTEGER NOT NULL CHECK (age > 0),
-	role TEXT NOT NULL,
+	role TEXT NOT NULL
 );
 
 CREATE TABLE categories(
