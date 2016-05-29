@@ -81,7 +81,7 @@
                     pstmt=conn.prepareStatement("SELECT * FROM Categories WHERE id = ?");
                 	pstmt.setInt(1, Integer.parseInt(request.getParameter("id")));
                 	rs=pstmt.executeQuery();
-                	if(rs.next())///???????
+                	if(rs.next())
                 	{	
                 		System.out.println("rs:"+rs.getInt("id"));
                 	}
@@ -122,12 +122,18 @@
                 	pstmt=conn.prepareStatement("SELECT * FROM Categories WHERE id = ?");
                 	pstmt.setInt(1, Integer.parseInt(request.getParameter("id")));
                 	rs=pstmt.executeQuery();
-                	if(rs.next())///???????
+                	if(rs.next())
 	                	System.out.println("rs:"+rs.getInt("id"));
                 	else
                 		throw new SQLException();
                 	conn.commit();
-           			
+                	
+                	pstmt=conn.prepareStatement("Select * from products,categories where products.category=categories.name and categories.id=?");
+                	pstmt.setInt(1,Integer.parseInt(request.getParameter("id")));
+                	rs=pstmt.executeQuery();
+                	if(rs.next())
+                		throw new SQLException();
+           			conn.commit();
                 	    pstmt = conn
                 	        .prepareStatement("DELETE FROM Categories WHERE id = ?");
 

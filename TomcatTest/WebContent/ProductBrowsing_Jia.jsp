@@ -14,8 +14,8 @@
 	if( role==null || !role.equals("customer"))
 	{
 		%><h1>This page is open only to customers!</h1><%
-	//}
-	//else{
+	}
+	else{
 %>
 
 <%--get Categories --%>
@@ -35,7 +35,7 @@
 	        	            "jdbc:postgresql://localhost:5432/postgres?" +
 	            	        "user=postgres&password=003426");
 		conn.setAutoCommit(false);
-    	pstmt=conn.prepareStatement("SELECT name FROM Category");
+    	pstmt=conn.prepareStatement("SELECT name FROM Categories");
 		rs=pstmt.executeQuery();
 		while(rs.next())
 		{	

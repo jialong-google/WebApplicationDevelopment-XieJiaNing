@@ -36,7 +36,7 @@
 		<br>
 		
 		<label>Password</label>
-		<input type="text" name="password" id="age" placeholder="Password" required>
+		<input type="password" name="password" id="age" placeholder="Password" required>
 		<br>
 		
 		<label>Your State</label>

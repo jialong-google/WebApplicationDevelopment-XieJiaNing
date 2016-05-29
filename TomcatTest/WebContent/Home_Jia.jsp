@@ -1,4 +1,4 @@
-
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
 
 	String role=(String) session.getAttribute("role");
@@ -23,7 +23,11 @@
 	<a href="Category_Jia.jsp">Manage Categories</a>
 	<br/>
 	
-	<a href="product.jsp">Manage Products</a>
+	<c:url var="categoryListLink" value="ProductControllerServlet">
+		<c:param name="command"  value="SETUP"/>
+	</c:url>
+		
+	<a href="${categoryListLink}">Manage Products</a>
 	<br/>
 <% 
 }
